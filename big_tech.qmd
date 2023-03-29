@@ -1,0 +1,62 @@
+---
+title: "#TidyTuesday"
+author: Nicola Rennie
+format: html
+execute: 
+  message: false
+  warning: false
+---
+
+Load data:
+
+```{r}
+#| message: false
+big_tech_stock_prices <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-02-07/big_tech_stock_prices.csv')
+```
+
+Data wrangling:
+
+```{r}
+library(tidyverse)
+library(lubridate)
+plot_data = big_tech_stock_prices %>% 
+  mutate(year = year(date)) %>% 
+  group_by(stock_symbol, year) %>% 
+  summarise(open = mean(open, na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  filter(year <= 2022)
+
+```
+
+Make a basic line chart:
+
+```{r}
+ggplot(plot_data,
+       aes(x = year, y = open, colour = stock_symbol)) +
+  geom_line()
+```
+
+Try a sankey plot:
+
+```{r}
+library(ggsankey)
+ggplot(plot_data,
+       aes(x = year, value = open, node = stock_symbol,
+           fill = (stock_symbol == "ADBE"))) +
+  geom_sankey_bump(colour = "transparent",
+                   alpha = 0.6) +
+  scale_fill_manual(
+    values = c("grey", "red")
+  ) +
+  theme_minimal()
+```
+
+
+
+
+
+
+
+
+
+

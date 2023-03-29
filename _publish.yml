@@ -1,0 +1,4 @@
+- source: big_tech.qmd
+  quarto-pub:
+    - id: 68f36ae2-4fb3-44fb-b2db-2ac7a5492ec1
+      url: 'https://quartopub.com/sites/nrennie/tidytuesday-big-tech'
